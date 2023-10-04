@@ -7,19 +7,24 @@
     },
     methods: {
       addToDisplay(value) {
-        this.display += value;
+        if (value === 'sqrt' || value === 'Math.sin(' || value === 'Math.cos(' || value === 'Math.tan(') {
+          this.display += value + ')';
+        } else {
+          this.display += value;
+        }
       },
       clearDisplay() {
         this.display = '';
       },
       calculateResult() {
         try {
-          this.display = this.display.replace(/sqrt/g, 'Math.sqrt');
-          this.display = this.display.replace(/Math.sin/g, 'Math.sin');
-          this.display = this.display.replace(/Math.cos/g, 'Math.cos');
-          this.display = this.display.replace(/Math.tan/g, 'Math.tan');
+          let modifiedDisplay = this.display
+            .replace(/sqrt/g, 'Math.sqrt')
+            .replace(/sin/g, 'Math.sin')
+            .replace(/cos/g, 'Math.cos')
+            .replace(/tan/g, 'Math.tan');
 
-          this.display = eval(this.display);
+          this.display = new Function('return ' + modifiedDisplay)();
         } catch (error) {
           this.display = 'Error';
         }

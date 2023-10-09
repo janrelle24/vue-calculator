@@ -1,90 +1,65 @@
-<script>
-  export default {
-    data() {
-      return {
-        display: ''
-      };
-    },
-    methods: {
-      addToDisplay(value) {
-        if (value === 'sqrt' || value === 'Math.sin(' || value === 'Math.cos(' || value === 'Math.tan(') {
-          this.display += value + ')';
-        } else {
-          this.display += value;
-        }
-      },
-      clearDisplay() {
-        this.display = '';
-      },
-      calculateResult() {
-        try {
-          let modifiedDisplay = this.display
-            .replace(/sqrt/g, 'Math.sqrt')
-            .replace(/sin/g, 'Math.sin')
-            .replace(/cos/g, 'Math.cos')
-            .replace(/tan/g, 'Math.tan');
+<template>
+<div id="this">
 
-          this.display = new Function('return ' + modifiedDisplay)();
-        } catch (error) {
-          this.display = 'Error';
-        }
-      },
-      deleteLastChar() {
-        this.display = this.display.toString().slice(0, -1);
+  <div class="container">
+    <div class="calculator">
+      <p> {{ mode }} </p>   
+      <div class="row input-data">
+        <div class="col-lg-12">
+          <div class="input-group">
+            <span class="input-group-addon"> <input class="input-data" @click="changeToggle" type="checkbox" aria-label="Checkbox for following text input"> </span>
+            <input type="text" class="form-control text-right" v-model="current" aria-label="Text input with checkbox" disabled>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="buttons">
+
+        <Basic v-show="!toggle" v-bind:current="current" @addNumber="doStuff($event)"></Basic>
+        <Scientific v-show="toggle"  v-bind:current="current" @addNumber="doStuff($event)"></Scientific>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+</template>
+
+<script>
+import Basic from './components/Basic';
+import Scientific from './components/Scientific';
+
+export default{
+  name: 'Calculator',
+  components: {
+    'Basic' : Basic,
+    'Scientific' : Scientific
+    
+  },
+  data () {
+    return {
+      current: 0,
+      toggle: false,
+      mode: 'Basic'
+    }
+  },
+  methods: {
+    changeToggle: function() {
+      this.toggle = !this.toggle;
+      if(this.mode == 'Basic') {
+        this.mode = 'Scientific' 
+      }else{
+        this.mode = 'Basic'
       }
     }
   }
+}
 </script>
 
-<template>
-  <div class="container">
-      <div class="calculator">
-          <form>
-              <div class="display">
-                  <input type="text" name="display" v-model="display" disabled>
-              </div>
-              <div>
-                  <input type="button" value="AC" class="ac" @click="clearDisplay()">
-                  <input type="button" class="del" value="Del" @click="deleteLastChar()">
-                  <input type="button" class="symbols" value="." @click="addToDisplay('.')">
-                  <input type="button" class="symbols" value="/" @click="addToDisplay('/')">
-              </div>
-              <div>
-                  <input type="button" value="Sqrt" class="scientific"  @click="addToDisplay('sqrt(')">
-                  <input type="button" class="scientific" value="Sin" @click="addToDisplay('Math.sin(')">
-                  <input type="button" class="scientific" value="Cos" @click="addToDisplay('Math.cos(')">
-                  <input type="button" class="scientific" value="Tan" @click="addToDisplay('Math.tan(')">
-              </div>
-              <div>
-                  <input type="button" class="NumpadBtns" value="7" @click="addToDisplay('7')">
-                  <input type="button" class="NumpadBtns" value="8" @click="addToDisplay('8')">
-                  <input type="button" class="NumpadBtns" value="9" @click="addToDisplay('9')">
-                  <input type="button" class="symbols" value="*" @click="addToDisplay('*')">
-              </div>
-              <div>
-                  <input type="button" class="NumpadBtns" value="4" @click="addToDisplay('4')">
-                  <input type="button" class="NumpadBtns" value="5" @click="addToDisplay('5')">
-                  <input type="button" class="NumpadBtns" value="6" @click="addToDisplay('6')">
-                  <input type="button" class="symbols" value="-" @click="addToDisplay('-')">
-              </div>
-              <div>
-                  <input type="button" class="NumpadBtns" value="1" @click="addToDisplay('1')">
-                  <input type="button" class="NumpadBtns" value="2" @click="addToDisplay('2')">
-                  <input type="button" class="NumpadBtns" value="3" @click="addToDisplay('3')">
-                  <input type="button" class="symbols" value="+" @click="addToDisplay('+')">
-              </div>
-              <div>
-                  <input type="button" class="special" value="00" @click="addToDisplay('00')">
-                  <input type="button" class="special" value="0" @click="addToDisplay('0')">
-                  <input type="button" value="=" class="equal" @click="calculateResult()">
-              </div>
-          </form>
-      </div>
-  </div>
-</template>
-
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap');
 *{
     margin: 0px;
     padding:0px;
@@ -92,81 +67,75 @@
     box-sizing: border-box;
     user-select: none;
 }
-body{
+body{ /**new add */
     height:100vh;
-    Background: #e9e6ec;
+    Background: #8608ee;
     display:grid;
 }
-.container{
-    width: 100%;
-    
-    height: 100%;
 
-    display: flex;
+.container{
+  
+  height: 35em;
+  width: 55%;
+  margin: 5% auto;
+  border: 5px solid rgb(95, 233, 169);
+  border-radius: 15px;
+  
+  /*
+  height: 35em;
+  width: 55%;
+  margin: 5% auto;
+  border-radius: 15px;
+  border: 5px solid grey; */
 }
 .calculator{
-    background: #4897eb;
+    background: #023e7d;
     padding: 10px;
     box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.219);
     margin:auto;
-
     border-radius: 10px;
 }
 
-.calculator form input {
-    border: 0;
-    outline: 0;
-    width: 60px;
-    height:60px;
-    border-radius: 10px;
-    font-family: Nunito;
-    font-weight: 700;
-    font-size:1.7em;
-    color: white;
-    cursor: pointer;
-    margin: 10px;
-
-}
-.calculator form input.NumpadBtns{
-    background: #012a4a;
-}
-form .display{
-    display: flex;
-    justify-content: flex-end;
-    margin: 20px 0;
-}
-form .display input{
-    text-align: right;
-    flex: 2;
-    font-size: 45px;
-    box-shadow: none;
-    padding:20px;
-    box-sizing: border-box;
-    background: #218380; 
-    box-shadow: 0 0 10px 3px #00000033;
-    height:80px;
-    color: white;
+.input-group {
+  display: flex;
+  justify-content: center;
 }
 
-form input.equal{
-width: 145px;
-background: #005f08
-}
-form input.ac,form input.del{
-    background: #5f0000
-}
-.scientific {
-    background-color:#47e732;
-}
-
-.symbols{
-    background-color: #edae49;
-}
-.special{
-    background: #248277;
+.text-right{
+ /* 
+font-size : 2em;
+color: red; */
+text-align: right;
+flex: 2;
+font-size: 45px;
+box-shadow: none;
+padding:20px;
+box-sizing: border-box;
+background: #218380; 
+box-shadow: 0 0 10px 3px #00000033;
+height:80px;
+color: white;
 }
 
-.calculator form input:hover {
-    box-shadow: 0px 0px 5px 3px #00000025;
+.input-data{
+  padding: 0em 0.5em;
+  height: 2em;
+} 
+
+hr { 
+    display: block;
+    margin-top: 3em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+}
+
+p {
+  color: white;
+  text-align: center;
+  font-size: 1.5em;
+  padding: 0.2em 0px;
 }
 </style>

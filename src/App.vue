@@ -173,7 +173,8 @@ export default{
       this.current += "/";
     },
     backspace: function(){
-      this.current = this.current.substring(0, this.current.length - 1);
+      /*this.current = this.current.substring(0, this.current.length - 1);*/
+      this.current = this.current.toString().slice(0,-1);
     },
     multiply: function(){
       this.current += "*";
@@ -279,7 +280,7 @@ export default{
     box-sizing: border-box;
     user-select: none;
 }
-body{ /**new add */
+body{ 
     height:100vh;
     Background: #8608ee;
     display:grid;
@@ -290,15 +291,8 @@ body{ /**new add */
   height: 35em;
   width: 55%;
   margin: 5% auto;
-  border: 5px solid rgb(95, 233, 169);
+  /*border: 5px solid rgb(95, 233, 169);*/
   border-radius: 15px;
-  
-  /*
-  height: 35em;
-  width: 55%;
-  margin: 5% auto;
-  border-radius: 15px;
-  border: 5px solid grey; */
 }
 .calculator{
     background: #023e7d;
@@ -311,12 +305,10 @@ body{ /**new add */
 .input-group {
   display: flex;
   justify-content: center;
+  
 }
 
 .text-right{
- /* 
-font-size : 2em;
-color: red; */
 text-align: right;
 flex: 2;
 font-size: 45px;
@@ -326,6 +318,8 @@ box-sizing: border-box;
 background: #218380; 
 box-shadow: 0 0 10px 3px #00000033;
 height:80px;
+border-radius: 10px;
+cursor: pointer;
 color: white;
 }
 

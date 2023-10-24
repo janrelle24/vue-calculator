@@ -289,7 +289,9 @@ body{
 .container{
   
   height: 35em;
-  width: 55%;
+  /*width: 55%;*/
+  width: 100%;
+  max-width: 800px;
   margin: 5% auto;
   /*border: 5px solid rgb(95, 233, 169);*/
   border-radius: 15px;
@@ -311,7 +313,8 @@ body{
 .text-right{
 text-align: right;
 flex: 2;
-font-size: 45px;
+/*font-size: 45px;*/
+font-size: 2.5em;
 box-shadow: none;
 padding:20px;
 box-sizing: border-box;
@@ -325,7 +328,7 @@ color: white;
 
 .input-data{
   padding: 0em 0.5em;
-  height: 2em;
+  height: auto;
 } 
 
 hr { 
@@ -343,5 +346,48 @@ p {
   text-align: center;
   font-size: 1.5em;
   padding: 0.2em 0px;
+}
+/*@media (max-width: 768px) {
+  .calculator {
+    padding: 5px; /* Adjust padding for smaller screens */
+  /*}
+
+  .text-right {
+    font-size: 1.5em;
+    padding: 0.8em;
+  }
+
+  .input-data {
+    padding: 0.8em;
+  }
+
+  hr { 
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+  }
+}*/
+@media (max-width: 576px) {
+  .container {
+    margin: 10% auto; /* Adjust margin for smaller screens */
+    height: auto; /* Allow the container to grow with content */
+  }
+
+  .calculator {
+    padding: 5px; /* Adjust padding for smaller screens */
+  }
+
+  .text-right {
+    font-size: 1.5em; /* Adjust font size for smaller screens */
+    padding: 0.8em;
+  }
+
+  .input-data {
+    padding: 0.8em;
+  }
+
+  hr {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+  }
 }
 </style>
